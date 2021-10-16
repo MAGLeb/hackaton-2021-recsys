@@ -4,3 +4,5 @@
 Уже с агрегированные данные для обучения и тестирования заливал бы сюда.
 
 https://drive.google.com/drive/folders/1soNwrx75x-dUdMYZnOxSN1RMEnu_FH38?usp=sharing
+
+https://www.figma.com/file/UpfApMpu0ltX6iJU8wMxzx/Library-Recommendation-Copy
