@@ -1,5 +1,6 @@
 from backend.models.model import Model
 from backend.models.item_similarity import ItemSimilarity
+from backend.models.random import Random
 
 
 class ModelFactory:
@@ -11,7 +12,7 @@ class ModelFactory:
     model_name_to_class = {
         'rnn': None,
         'item_similarity': ItemSimilarity,
-        'random': None,
+        'random': Random,
     }
 
     @classmethod

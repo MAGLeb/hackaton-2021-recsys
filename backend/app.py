@@ -26,21 +26,48 @@ def readiness_check():
     return '', 200
 
 
+@_app.route('/books', methods=['GET'])
+def books():
+    """ Return all books ids.
+
+    Output data has JSON format:
+    {
+        "ids": [int, ...]
+    }
+    """
+    all_users_id = get_all_unique_books_id()
+    return jsonify(all_users_id)
+
+
 @_app.route('/users', methods=['GET'])
 def users():
+    """ Return all users ids.
+
+    Output data has JSON format:
+    {
+        "ids": [int, ...]
+    }
+    """
     all_users_id = get_all_unique_users_id()
     return jsonify(all_users_id)
 
 
 @_app.route('/genres', methods=['GET'])
 def genres():
+    """ Return all genres for books.
+
+    Output data has JSON format:
+    {
+        "genres": [str, ...]
+    }
+    """
     all_genres = get_all_unique_genres()
     return jsonify(all_genres)
 
 
 @_app.route('/popular', methods=['GET'])
 def popular():
-    """ Get books ids for three topic:
+    """ Return books ids for three topic:
         - popular this month,
         - Russian authors,
         - new books.
@@ -58,7 +85,7 @@ def popular():
 
 @_app.route('/targets', methods=['GET'])
 def targets():
-    """ Finds the description of books by the specified id.
+    """ Return the description of books by the specified id.
 
     Input data from url has the next view: http://localhost:8888?
         &target_ids=int, ...
@@ -75,7 +102,7 @@ def targets():
 
 @_app.route('/books_filter', methods=['GET'])
 def books_filter():
-    """ Get filtered books by type and genre.
+    """ Return filtered books by type and genres.
 
     Input data from url has the next view: http://localhost:8888?
         &type=Union['classic', 'modern']
@@ -98,7 +125,7 @@ def books_filter():
 
 @_app.route('/recommendations', methods=['GET'])
 def recommendations():
-    """ Get recommendations.
+    """ Return recommendations for specified model.
 
     Input data from url has the next view: http://localhost:8888?
         &user_id=int

@@ -6,6 +6,7 @@ from turicreate.data_structures.sframe import SFrame
 from turicreate.toolkits.recommender.item_content_recommender import create
 
 from backend.models.model import Model
+from backend.preprocessing import get_history_user
 
 
 class ItemSimilarity(Model):
@@ -30,3 +31,6 @@ class ItemSimilarity(Model):
     def load(self):
         if os.path.exists(self._local_model_path):
             self._model = load_model(self._local_model_path)
+
+    def save(self):
+        self._model.save(self._local_model_path)
