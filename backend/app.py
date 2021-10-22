@@ -1,8 +1,10 @@
-from flask import Flask, jsonify, request, Response, json
+from flask import Flask, jsonify, request
 
 from backend.strategy import ModelFactory
+from backend.database import Database
 
 _app = Flask(__name__)
+database = Database()
 
 """ We have got default API for book presentation. And on API description will call it BOOK_DESCRIPTION.
 
@@ -35,7 +37,7 @@ def books():
         "ids": [int, ...]
     }
     """
-    all_users_id = get_all_unique_books_id()
+    all_users_id = database.get_all_unique_books_id()
     return jsonify(all_users_id)
 
 
@@ -48,7 +50,7 @@ def users():
         "ids": [int, ...]
     }
     """
-    all_users_id = get_all_unique_users_id()
+    all_users_id = database.get_all_unique_users_id()
     return jsonify(all_users_id)
 
 
@@ -61,7 +63,7 @@ def genres():
         "genres": [str, ...]
     }
     """
-    all_genres = get_all_unique_genres()
+    all_genres = database.get_all_unique_genres()
     return jsonify(all_genres)
 
 
@@ -79,7 +81,7 @@ def popular():
         "news": [{BOOK_DESCRIPTION}, ...]
     }
     """
-    popular_books_info = get_popular_books()
+    popular_books_info = database.get_popular_books()
     return jsonify(popular_books_info)
 
 
@@ -96,7 +98,7 @@ def targets():
     }
     """
     target_ids = request.args.get('target_ids')
-    popular_books_info = get_books_by_ids(target_ids)
+    popular_books_info = database.get_books_by_ids(target_ids)
     return jsonify(popular_books_info)
 
 
@@ -119,7 +121,7 @@ def books_filter():
     if book_type is None or genres is None:
         return "Necessarily send two arguments: 'type' and 'genres'.", 400
 
-    popular_books_info = get_filtered_books(book_type, genres)
+    popular_books_info = database.get_filtered_books(book_type, genres)
     return jsonify(popular_books_info)
 
 

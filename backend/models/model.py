@@ -7,10 +7,8 @@ class Model(ABC):
     """
     Base class used for creating recommendation model.
 
-    :params LOCAL_MODEL_PATH, str: absolute path to model folder in environment.
     :params MODEL_PATH, str: folder where the model contains.
     """
-    LOCAL_MODEL_PATH = os.environ['LOCAL_MODEL_PATH']
 
     def __init__(self, model_path):
         self._model = None

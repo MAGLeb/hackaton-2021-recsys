@@ -6,6 +6,11 @@ import pandas as pd
 import numpy as np
 
 PROJECT_PATH = os.path.abspath('../')
+DEFAULT_COLUMN = ['id', 'title', 'year', 'contribution', 'annotation', 'keyword',
+       'titleAdditionalInfo', 'volume', 'parallelTitle', 'publicationType',
+       'language_name', 'material_name', 'ageRestriction_name', 'rubric_name',
+       'author_id', 'serial_name', 'collapse_field', 'title_orig',
+       'available']
 DEFAULT_COLUMNS_RETURN = ['id', 'title', 'author', 'year', 'annotation', 'age_restriction',
                           'volume', 'rubric', 'keyword', 'title_additional', 'available']
 
@@ -48,11 +53,13 @@ class Database:
         elif book_type == 'modern':
             books = self.books[self.books['year'] >= 2000]
         else:
-            raise ValueError('Argument "book_type" must be only one of them: ["classic", "modern"].')
+            raise ValueError('Argument "book_type" must be only one of: ["classic", "modern"].')
 
         books = books[books['keyword'].isin(genres) or
                       books['rubric_name'].isin(genres) or
                       books['serial_name'].isin(genres)]
+
+        return books
 
     def get_random_books_ids(self, k: int = 5) -> list:
         return random.sample(self.unique_books_ids, k)
