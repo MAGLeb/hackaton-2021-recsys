@@ -1,0 +1,30 @@
+FEATURES
+- mini tinder for cold start user
+- achivement for users and some features for it
+- reviews for books and classification for comments
+- quotes from books
+- top popular books
+- news topics
+- recommendation for readed book
+- personal recommendation
+
+
+ANALYTICS
+- analytics per library
+- возраст, жанр
+- сезонность
+- количество аренды ежедневно
+- возращаемость, уникальность, ретеншион рейт
+
+
+LATER FEATURES
+- quiz after reading the book
+- notification (don't forget return book)
+
+
+PRESENTATION
+- plan of presentation
+- who we are
+- 
+- tinder
+
