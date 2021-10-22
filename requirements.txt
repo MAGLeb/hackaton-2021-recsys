@@ -1,4 +1,4 @@
-numpy==1.19.5
-Flask==2.0.2
-pandas==1.3.3
-turicreate==6.4.1
+numpy
+Flask
+pandas
+turicreate
