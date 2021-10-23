@@ -98,7 +98,7 @@ def targets():
     """ Return the description of books by the specified id.
 
     Input data from url has the next view: http://localhost:8888?
-        &target_ids=int, ...
+        target_ids=int, ...
 
     Output data has JSON format:
     {
@@ -120,7 +120,7 @@ def books_filter():
     """ Return filtered books by type and rubrics.
 
     Input data from url has the next view: http://localhost:8888?
-        &type=Union['classic', 'modern']
+        type=Union['classic', 'modern']
         &rubrics=str, ...
 
     Output data has JSON format:
@@ -129,13 +129,19 @@ def books_filter():
     }
     """
     book_type = request.args.get('type')
-    rubrics = request.args.get('rubrics').split(',')
+    rubrics = request.args.get('rubrics')
 
     if book_type is None or rubrics is None:
-        return "Necessarily send two arguments: 'type' and 'rubrics'.", 400
+        return 'Necessarily send two arguments: "type" and "rubrics".', 400
+    else:
+        rubrics = rubrics.split(',')
 
-    popular_books_info = database.books_filter_by_type_rubrics(book_type, rubrics)
-    return jsonify(popular_books_info)
+    if book_type in ['classic', 'modern']:
+        return 'Argument "book_type" must be only one of: ["classic", "modern"].', 400
+
+    ids = database.books_filter_by_type_rubrics(book_type, rubrics)
+    filtered_books = database.books_by_ids(ids)
+    return jsonify(filtered_books)
 
 
 @_app.route('/recommendations', methods=['GET'])
@@ -143,7 +149,7 @@ def recommendations():
     """ Return recommendations for specified model.
 
     Input data from url has the next view: http://localhost:8888?
-        &user_id=int
+        user_id=int
         &book_ids=int, ...
         &model_name=str
 

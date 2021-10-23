@@ -64,16 +64,15 @@ class Database:
     def books_by_ids(self, ids: list):
         return self.books.loc[self.books['id'].isin(ids), DEFAULT_COLUMNS_RETURN].to_dict('records')
 
-    def books_filter_by_type_rubrics(self, book_type: Union['classic', 'modern'], rubrics: list):
+    def books_filter_by_type_rubrics(self, book_type: Union['classic', 'modern'], rubrics: list, k: int = 25):
         if book_type == 'classic':
             books = self.books[self.books['year'] <= 2000]
-        elif book_type == 'modern':
-            books = self.books[self.books['year'] >= 2000]
         else:
-            raise ValueError('Argument "book_type" must be only one of: ["classic", "modern"].')
+            books = self.books[self.books['year'] >= 2000]
 
         books = books[books['rubrics'].isin(rubrics)]
-        return books
+        ids = books['id'][:k]
+        return ids
 
     def random_books_ids(self, k: int = 5) -> list:
         return random.sample(self.unique_books_ids, k)
