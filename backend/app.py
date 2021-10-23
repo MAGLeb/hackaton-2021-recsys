@@ -1,8 +1,9 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+import json
 
-from backend.factory import ModelFactory
-from backend.database import Database
+from factory import ModelFactory
+from database import Database
 
 _app = Flask(__name__)
 CORS(_app)
@@ -38,8 +39,8 @@ def books():
         "ids": [int, ...]
     }
     """
-    all_users_id = database.unique_books_id()
-    return jsonify(all_users_id)
+    all_books_id = database.unique_books_id()
+    return jsonify({'ids': [int(id) for id in all_books_id]})
 
 
 @_app.route('/users', methods=['GET'])
@@ -52,7 +53,7 @@ def users():
     }
     """
     all_users_id = database.unique_users_id()
-    return jsonify(all_users_id)
+    return jsonify({'ids': [int(id) for id in all_users_id]})
 
 
 @_app.route('/genres', methods=['GET'])
@@ -65,7 +66,7 @@ def genres():
     }
     """
     all_genres = database.unique_genres()
-    return jsonify(all_genres)
+    return jsonify({'genres': all_genres})
 
 
 @_app.route('/popular', methods=['GET'])

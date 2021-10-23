@@ -2,8 +2,8 @@ from typing import List
 
 from turicreate.data_structures.sframe import SFrame
 
-from backend.models.model import Model
-from backend.database import Database
+from models.model import Model
+from database import Database
 
 
 class Random(Model):

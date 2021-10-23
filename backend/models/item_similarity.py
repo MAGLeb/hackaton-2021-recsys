@@ -5,8 +5,8 @@ from turicreate import load_model
 from turicreate.data_structures.sframe import SFrame
 from turicreate.toolkits.recommender.item_content_recommender import create
 
-from backend.models.model import Model
-from backend.database import Database
+from models.model import Model
+from database import Database
 
 
 class ItemSimilarity(Model):
