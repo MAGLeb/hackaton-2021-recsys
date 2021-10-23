@@ -1,44 +1,26 @@
-from turicreate import SFrame
-
-from models.item_similarity import ItemSimilarity
-from models.random import Random
-from database import Database
-from utils.utils import parse_arguments
+from backend.core.models.item_similarity import ItemSimilarity
+from backend.core.database import Database
 
 
 class Trainer:
     def __init__(self):
         models = {
             'rnn': None,
-            'item_similarity': ItemSimilarity,
+            'item_similarity': self.item_similarity,
             'collaborative_filtering': None,
-            'random': Random,
+            'random': None,
         }
         self.database = Database()
 
-        args = parse_arguments()
-        model_name = args['model']
+        for model_name, model_function in models.items():
+            if model_function:
+                model_function()
 
-        if model_name not in models.keys():
-            raise NotImplementedError(f"We don't support ({model_name}) model.")
-
-        models[model_name]()
-
-    def daniel_strategy(self):
-        dataset = self.database.scores_from_interval()
-
-        daniel = DanielModel()
-        daniel.train(dataset['user_id'], dataset['item_id'], dataset['score'])
-        daniel.save()
-
-    def similarity_strategy(self):
-        matched_id = SFrame(self.database.artworks_id_and_filenames())
-
-        sim = SimilarityModel()
-        sim.train(matched_id=matched_id)
-        sim.save()
-        sim.save_graph()
+    def item_similarity(self):
+        model = ItemSimilarity(self.database)
+        model.train()
+        model.save()
 
 
 if __name__ == '__main__':
-    strategy = Strategy()
+    strategy = Trainer()

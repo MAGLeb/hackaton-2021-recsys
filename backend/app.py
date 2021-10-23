@@ -164,16 +164,16 @@ def recommendations():
     model_name = request.args.get('model_name')
     model = ModelFactory.create(model_name, database)
 
-    if user_id is not None:
+    if book_ids is None:
         ids = model.predict(user_id)
         predictions = database.books_by_ids(ids)
         return jsonify(predictions)
     elif book_ids is not None:
-        ids = model.predict(book_ids)
+        ids = model.predict(user_id, book_ids)
         predictions = database.books_by_ids(ids)
         return jsonify(predictions)
     else:
-        return "Send 'user_id' or 'book_ids', history of user interaction.", 400
+        return "Send 'user_id' and 'book_ids' which is history of user interaction.", 400
 
 
 if __name__ == '__main__':
