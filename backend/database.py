@@ -1,6 +1,8 @@
 import os
 import random
 from typing import Union
+from datetime import datetime
+import dateutil.relativedelta
 
 import pandas as pd
 import numpy as np
@@ -44,12 +46,23 @@ class Database:
     def rubrics(self) -> list:
         return self.unique_rubrics
 
-    def popular_books(self):
-        # TODO
-        pass
+    def popular_books(self, k: int = 25):
+        """
+        1 - popular this month
+        2 - russian history (key: 'История России')
+        3 - new books of 2021 (current year)
+        """
+        date_now_custom = pd.to_datetime(self.interactions['dt'].describe()['top'])
+        date_last_month = (date_now_custom - dateutil.relativedelta.relativedelta(months=1)).strftime('%Y-%m-%d')
+        current_year = date_now_custom.year
+
+        _1 = self.interactions[self.interactions['dt'] >= date_last_month]['book_id'].value_counts().index.tolist()[:k]
+        _2 = self.books[self.books['rubrics'] == 'История России'][:k]
+        _3 = self.books[self.books['year'] == current_year][:k]
+        return [_1, _2, _3]
 
     def books_by_ids(self, ids: list):
-        return self.books.loc[ids, DEFAULT_COLUMNS_RETURN].to_dict('records')
+        return self.books.loc[self.books['id'].isin(ids), DEFAULT_COLUMNS_RETURN].to_dict('records')
 
     def books_filter_by_type_rubrics(self, book_type: Union['classic', 'modern'], rubrics: list):
         if book_type == 'classic':

@@ -75,8 +75,8 @@ def rubrics():
 def popular():
     """ Return books ids for three topic:
         - popular this month,
-        - Russian authors,
-        - new books.
+        - russian history (key: 'История России'),
+        - new books of current year.
 
     Output data has JSON format:
     {
@@ -85,8 +85,12 @@ def popular():
         "news": [{BOOK_DESCRIPTION}, ...]
     }
     """
-    popular_books_info = database.popular_books()
-    return jsonify(popular_books_info)
+    month, russian, news = database.popular_books()
+    month_books = database.books_by_ids(month)
+    russian_books = database.books_by_ids(month)
+    news_books = database.books_by_ids(month)
+    response = {'month': month_books, 'russian': russian_books, 'new': news_books}
+    return jsonify(response)
 
 
 @_app.route('/targets', methods=['GET'])
