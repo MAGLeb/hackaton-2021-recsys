@@ -5,17 +5,20 @@ from turicreate import load_model
 from turicreate.data_structures.sframe import SFrame
 from turicreate.toolkits.recommender.item_content_recommender import create
 
-from models.model import Model
+from backend.models.model import Model
+from backend.database import Database
 
 
-class ItemSimilarity(Model):
+class CollaborativeFiltering(Model):
     """
     Recommendation model imported from Apple framework 'Turicreate'.
     https://github.com/apple/turicreate
 
-    Find the most similar (the nearest) book to the book for which you want to predict.
+    This model based on user book interactions. The underlying assumption of the collaborative filtering
+    approach is that if a person A has the same opinion as a person B on an issue, A is more likely to have
+     B's opinion on a different issue than that of a randomly chosen person.
     """
-    MODEL_PATH = 'item_similarity/'
+    MODEL_PATH = 'collaborative_filtering/'
 
     def __init__(self, database):
         super().__init__(self.MODEL_PATH, database)

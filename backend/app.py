@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import json
 
 from factory import ModelFactory
 from database import Database
@@ -19,7 +18,7 @@ BOOK_DESCRIPTION = {
     'annotation': short description; STRING
     'age_restriction': age restriction; INT
     'volume': number pages in book; INT
-    'genres': keywords and rubrics; LIST
+    'rubrics': rubrics; LIST
     'available': number available books in total; INT
 }
 """
@@ -39,8 +38,9 @@ def books():
         "ids": [int, ...]
     }
     """
-    all_books_id = database.unique_books_id()
-    return jsonify({'ids': [int(id) for id in all_books_id]})
+    all_books_id = database.books_ids()
+    response = {'ids': list(map(int, all_books_id))}
+    return jsonify(response)
 
 
 @_app.route('/users', methods=['GET'])
@@ -52,21 +52,23 @@ def users():
         "ids": [int, ...]
     }
     """
-    all_users_id = database.unique_users_id()
-    return jsonify({'ids': [int(id) for id in all_users_id]})
+    all_users_id = database.users_ids()
+    response = {'ids': list(map(int, all_users_id))}
+    return jsonify(response)
 
 
-@_app.route('/genres', methods=['GET'])
-def genres():
-    """ Return all genres for books.
+@_app.route('/rubrics', methods=['GET'])
+def rubrics():
+    """ Return all rubrics for books.
 
     Output data has JSON format:
     {
-        "genres": [str, ...]
+        "rubrics": [str, ...]
     }
     """
-    all_genres = database.unique_genres()
-    return jsonify({'genres': all_genres})
+    all_rubrics = database.rubrics()
+    response = {'rubrics': all_rubrics}
+    return jsonify(response)
 
 
 @_app.route('/popular', methods=['GET'])
@@ -99,18 +101,23 @@ def targets():
         "books": [{BOOK_DESCRIPTION}, ...],
     }
     """
-    target_ids = list(map(int, request.args.get('target_ids').split(',')))
+    target_ids = request.args.get('target_ids')
+
+    if target_ids is None:
+        return "Necessarily send argument: 'targets_ids'.", 400
+
+    target_ids = list(map(int, target_ids.split(',')))
     popular_books_info = database.books_by_ids(target_ids)
     return jsonify(popular_books_info)
 
 
 @_app.route('/books_filter', methods=['GET'])
 def books_filter():
-    """ Return filtered books by type and genres.
+    """ Return filtered books by type and rubrics.
 
     Input data from url has the next view: http://localhost:8888?
         &type=Union['classic', 'modern']
-        &genres=str, ...
+        &rubrics=str, ...
 
     Output data has JSON format:
     {
@@ -118,12 +125,12 @@ def books_filter():
     }
     """
     book_type = request.args.get('type')
-    genres = request.args.get('genres').split(',')
+    rubrics = request.args.get('rubrics').split(',')
 
-    if book_type is None or genres is None:
-        return "Necessarily send two arguments: 'type' and 'genres'.", 400
+    if book_type is None or rubrics is None:
+        return "Necessarily send two arguments: 'type' and 'rubrics'.", 400
 
-    popular_books_info = database.books_filter_by_type_genre(book_type, genres)
+    popular_books_info = database.books_filter_by_type_rubrics(book_type, rubrics)
     return jsonify(popular_books_info)
 
 
@@ -145,7 +152,7 @@ def recommendations():
     user_id = request.args.get('user_id')
     book_ids = request.args.get('book_ids')
     model_name = request.args.get('model_name')
-    model = ModelFactory.create(model_name)
+    model = ModelFactory.create(model_name, database)
 
     if user_id is not None:
         ids = model.predict(user_id)

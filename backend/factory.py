@@ -13,6 +13,7 @@ class ModelFactory:
     model_name_to_class = {
         'rnn': None,
         'item_similarity': ItemSimilarity,
+        'collaborative_filtering': None,
         'random': Random,
     }
 
@@ -22,11 +23,11 @@ class ModelFactory:
             cls.current_models[model_name] = cls.model_name_to_class[model_name]()
 
     @classmethod
-    def create(cls, model_name) -> Model:
+    def create(cls, model_name, database) -> Model:
         if model_name not in cls.model_name_to_class:
             raise ValueError('This strategy type: {}, is not supported'.format(model_name))
 
         if model_name not in cls.current_models:
-            cls.current_models[model_name] = cls.model_name_to_class[model_name]()
+            cls.current_models[model_name] = cls.model_name_to_class[model_name](database)
 
         return cls.current_models[model_name]

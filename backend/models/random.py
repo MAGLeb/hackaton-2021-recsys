@@ -8,7 +8,7 @@ from database import Database
 
 class Random(Model):
     """
-    Recommendation model. Random predictions.
+    Recommendation model. Predict random ids of books.
     """
     MODEL_PATH = 'random/'
 
