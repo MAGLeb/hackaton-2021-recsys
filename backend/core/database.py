@@ -1,13 +1,14 @@
 import os
 import random
 from typing import Union
-from datetime import datetime
 import dateutil.relativedelta
 
 import pandas as pd
 import numpy as np
 
-PROJECT_PATH = os.path.abspath('../')
+from backend.utils.utils import project_path
+
+PROJECT_PATH = project_path()
 DEFAULT_COLUMNS_RETURN = ['id', 'title', 'author', 'year', 'annotation',
                           'age_restriction', 'volume', 'rubrics', 'available']
 

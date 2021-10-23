@@ -3,7 +3,7 @@ from typing import List
 from turicreate.data_structures.sframe import SFrame
 
 from backend.models.model import Model
-from backend.database import Database
+from backend.core.database import Database
 
 
 class Random(Model):

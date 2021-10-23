@@ -3,7 +3,7 @@ import os
 
 
 def project_path() -> str:
-    return os.path.abspath(os.path.join(os.curdir, '..', '..'))
+    return os.path.abspath(os.path.join(os.curdir, '..'))
 
 
 def parse_arguments():

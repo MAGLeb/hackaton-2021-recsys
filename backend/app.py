@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from factory import ModelFactory
-from database import Database
+from backend.core.factory import ModelFactory
+from backend.core.database import Database
 
 _app = Flask(__name__)
 CORS(_app)
