@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from backend.strategy import ModelFactory
+from backend.factory import ModelFactory
 from backend.database import Database
 
 _app = Flask(__name__)
@@ -11,16 +11,15 @@ database = Database()
 """ We have got default API for book presentation. And on API description will call it BOOK_DESCRIPTION.
 
 BOOK_DESCRIPTION = {
-    'id': book id
-    'title': title of book
-    'author': author id of book
-    'year': year of writing
-    'annotation': short description
-    'age_restriction': age restriction
-    'volume': number pages in book
-    'rubric': rubric
-    'keyword': additional rubric keywords
-    'title_additional': additional title
+    'id': book id; INT
+    'title': title of book; STRING
+    'author': author id of book; STRING
+    'year': year of writing; INT
+    'annotation': short description; STRING
+    'age_restriction': age restriction; INT
+    'volume': number pages in book; INT
+    'genres': keywords and rubrics; LIST
+    'available': number available books in total; INT
 }
 """
 
@@ -39,7 +38,7 @@ def books():
         "ids": [int, ...]
     }
     """
-    all_users_id = database.get_all_unique_books_id()
+    all_users_id = database.unique_books_id()
     return jsonify(all_users_id)
 
 
@@ -52,7 +51,7 @@ def users():
         "ids": [int, ...]
     }
     """
-    all_users_id = database.get_all_unique_users_id()
+    all_users_id = database.unique_users_id()
     return jsonify(all_users_id)
 
 
@@ -65,7 +64,7 @@ def genres():
         "genres": [str, ...]
     }
     """
-    all_genres = database.get_all_unique_genres()
+    all_genres = database.unique_genres()
     return jsonify(all_genres)
 
 
@@ -83,7 +82,7 @@ def popular():
         "news": [{BOOK_DESCRIPTION}, ...]
     }
     """
-    popular_books_info = database.get_popular_books()
+    popular_books_info = database.popular_books()
     return jsonify(popular_books_info)
 
 
@@ -99,8 +98,8 @@ def targets():
         "books": [{BOOK_DESCRIPTION}, ...],
     }
     """
-    target_ids = request.args.get('target_ids')
-    popular_books_info = database.get_books_by_ids(target_ids)
+    target_ids = list(map(int, request.args.get('target_ids').split(',')))
+    popular_books_info = database.books_by_ids(target_ids)
     return jsonify(popular_books_info)
 
 
@@ -118,12 +117,12 @@ def books_filter():
     }
     """
     book_type = request.args.get('type')
-    genres = request.args.get('genres')
+    genres = request.args.get('genres').split(',')
 
     if book_type is None or genres is None:
         return "Necessarily send two arguments: 'type' and 'genres'.", 400
 
-    popular_books_info = database.get_filtered_books(book_type, genres)
+    popular_books_info = database.books_filter_by_type_genre(book_type, genres)
     return jsonify(popular_books_info)
 
 
@@ -148,10 +147,12 @@ def recommendations():
     model = ModelFactory.create(model_name)
 
     if user_id is not None:
-        predictions = model.predict(user_id)
+        ids = model.predict(user_id)
+        predictions = database.books_by_ids(ids)
         return jsonify(predictions)
     elif book_ids is not None:
-        predictions = model.predict(book_ids)
+        ids = model.predict(book_ids)
+        predictions = database.books_by_ids(ids)
         return jsonify(predictions)
     else:
         return "Send 'user_id' or 'book_ids', history of user interaction.", 400

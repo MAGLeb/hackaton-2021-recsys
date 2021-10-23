@@ -20,8 +20,7 @@ class Random(Model):
         pass
 
     def predict(self, user_id: int) -> List:
-        ids = self.db.get_random_books_ids()
-        predictions = self.db.get_books_by_ids(ids)
+        predictions = self.db.random_books_ids()
         return predictions
 
     def load(self):
