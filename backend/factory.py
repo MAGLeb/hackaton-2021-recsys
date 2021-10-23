@@ -1,6 +1,6 @@
-from backend.models.model import Model
-from backend.models.item_similarity import ItemSimilarity
-from backend.models.random import Random
+from models.model import Model
+from models.item_similarity import ItemSimilarity
+from models.random import Random
 
 
 class ModelFactory:
