@@ -1,9 +1,9 @@
 from turicreate import SFrame
 
-from backend.models.item_similarity import ItemSimilarity
-from backend.models.random import Random
-from backend.database import Database
-from backend.utils.utils import parse_arguments
+from models.item_similarity import ItemSimilarity
+from models.random import Random
+from database import Database
+from utils.utils import parse_arguments
 
 
 class Trainer:
