@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 from backend.strategy import ModelFactory
 from backend.database import Database
 
 _app = Flask(__name__)
+CORS(_app)
 database = Database()
 
 """ We have got default API for book presentation. And on API description will call it BOOK_DESCRIPTION.

@@ -2,3 +2,4 @@ local
 .idea
 .~lock*
 __pycache__
+.DS_Store
