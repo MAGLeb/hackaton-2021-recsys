@@ -1,6 +1,6 @@
 # Recommendation system for Moscow library
-
-## Frontend local start
+## Проект создан в рамках [хакатона](https://leaders2021.innoagency.ru/)
+### Frontend local start
 
 You need npm and nodejs installed to run this app
 
@@ -8,7 +8,7 @@ You need npm and nodejs installed to run this app
 2. npm install
 3. npm run start
 
-## Backend local start
+### Backend local start
 
 You need python 3.8 to be installed
 
