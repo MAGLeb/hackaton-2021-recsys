@@ -178,16 +178,17 @@ def recommendations():
         user_id = int(user_id)
         ids = model.predict(user_id)
         predictions = database.books_by_ids(ids)
+        user_history_ids = database.history_user(user_id)
+        user_history = database.books_by_ids(user_history_ids)
     elif book_ids is not None:
-        user_id = 1234567890
+        not_existed_user_id = 1234567890
         book_ids = list(map(int, book_ids.split(',')))
-        ids = model.predict(user_id, book_ids)
+        ids = model.predict(not_existed_user_id, book_ids)
         predictions = database.books_by_ids(ids)
+        user_history = database.books_by_ids(book_ids)
     else:
-        return "Send 'user_id' and 'book_ids' which is history of user interaction.", 400
+        return "Send 'user_id' or 'book_ids' which is the history of the user interaction.", 400
 
-    user_history_ids = database.history_user(user_id)
-    user_history = database.books_by_ids(user_history_ids)
     response = {'recommendations': predictions, 'history': user_history}
     return jsonify(response)
 

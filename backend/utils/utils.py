@@ -1,6 +1,8 @@
 import argparse
 import os
 
+NUMBER_ITEMS_TO_RETURN = 25
+
 
 def project_path() -> str:
     return os.path.abspath(os.path.join(os.curdir, '..'))

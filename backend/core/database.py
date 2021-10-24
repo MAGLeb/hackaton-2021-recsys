@@ -6,7 +6,7 @@ import dateutil.relativedelta
 import pandas as pd
 import numpy as np
 
-from backend.utils.utils import project_path
+from backend.utils.utils import project_path, NUMBER_ITEMS_TO_RETURN
 
 PROJECT_PATH = project_path()
 DEFAULT_COLUMNS_RETURN = ['id', 'title', 'author', 'year', 'annotation',
@@ -47,7 +47,7 @@ class Database:
     def rubrics(self) -> list:
         return self.unique_rubrics
 
-    def popular_books(self, k: int = 25):
+    def popular_books(self, k: int = NUMBER_ITEMS_TO_RETURN):
         """
         1 - popular this month
         2 - russian history (key: 'История России')
@@ -63,9 +63,21 @@ class Database:
         return [_1, _2, _3]
 
     def books_by_ids(self, ids: list):
-        return self.books.loc[self.books['id'].isin(ids), DEFAULT_COLUMNS_RETURN].to_dict('records')
+        books_info = pd.DataFrame(columns=DEFAULT_COLUMNS_RETURN)
+        books_ids = self.books['id'].values.tolist()
 
-    def books_filter_by_type_rubrics(self, book_type: Union['classic', 'modern'], rubrics: list, k: int = 25):
+        for id in ids:
+            if id in books_ids:
+                book = self.books.loc[self.books['id'] == id, DEFAULT_COLUMNS_RETURN]
+                books_info = books_info.append(book, ignore_index=True)
+            else:
+                book = {column: None for column in DEFAULT_COLUMNS_RETURN}
+                book['id'] = id
+                books_info = books_info.append(book, ignore_index=True)
+
+        return books_info.to_dict('records')
+
+    def books_filter_by_type_rubrics(self, book_type: Union['classic', 'modern'], rubrics: list, k: int = NUMBER_ITEMS_TO_RETURN):
         if book_type == 'classic':
             books = self.books[self.books['year'] <= 2000]
         else:
@@ -75,9 +87,9 @@ class Database:
         ids = books['id'].values.tolist()
         return ids[:k]
 
-    def random_books_ids(self, k: int = 25) -> list:
+    def random_books_ids(self, k: int = NUMBER_ITEMS_TO_RETURN) -> list:
         return random.sample(self.unique_books_ids, k)
 
-    def history_user(self, user_id: int, k: int = 25) -> list:
+    def history_user(self, user_id: int, k: int = NUMBER_ITEMS_TO_RETURN) -> list:
         return list(np.unique(self.interactions[self.interactions['user_id'] == user_id]
                               .sort_values(by='dt')['book_id']))[-k:][::-1]
