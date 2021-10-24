@@ -25,7 +25,7 @@ class ModelFactory:
     @classmethod
     def create(cls, model_name, database) -> Model:
         if model_name not in cls.model_name_to_class:
-            raise ValueError('This strategy type: {}, is not supported'.format(model_name))
+            raise ValueError('This model: {}, is not supported'.format(model_name))
 
         if model_name not in cls.current_models:
             cls.current_models[model_name] = cls.model_name_to_class[model_name](database)

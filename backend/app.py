@@ -141,7 +141,11 @@ def books_filter():
         return 'Argument "book_type" must be only one of: ["classic", "modern"].', 400
 
     ids = database.books_filter_by_type_rubrics(book_type, rubrics)
-    filtered_books = database.books_by_ids(ids)
+    if ids:
+        filtered_books = database.books_by_ids(ids)
+    else:
+        ids = database.random_books_ids(k=50)
+        filtered_books = database.books_by_ids(ids)
     response = {'books': filtered_books}
     return jsonify(response)
 
@@ -161,15 +165,21 @@ def recommendations():
         "history": [{BOOK_DESCRIPTION}, ...]
     }
     """
-    user_id = int(request.args.get('user_id'))
+    user_id = request.args.get('user_id')
     book_ids = request.args.get('book_ids')
     model_name = request.args.get('model_name')
+
+    if model_name is None:
+        model_name = 'item_similarity'
+
     model = ModelFactory.create(model_name, database)
 
     if book_ids is None:
+        user_id = int(user_id)
         ids = model.predict(user_id)
         predictions = database.books_by_ids(ids)
     elif book_ids is not None:
+        user_id = 1234567890
         book_ids = list(map(int, book_ids.split(',')))
         ids = model.predict(user_id, book_ids)
         predictions = database.books_by_ids(ids)

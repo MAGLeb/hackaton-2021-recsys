@@ -72,7 +72,7 @@ class Database:
             books = self.books[self.books['year'] >= 2000]
 
         books = books[books['rubrics'].isin(rubrics)]
-        ids = books['id']
+        ids = books['id'].values.tolist()
         return ids[:k]
 
     def random_books_ids(self, k: int = 25) -> list:
