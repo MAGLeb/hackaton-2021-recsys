@@ -58,8 +58,8 @@ class Database:
         current_year = date_now_custom.year
 
         _1 = self.interactions[self.interactions['dt'] >= date_last_month]['book_id'].value_counts().index.tolist()[:k]
-        _2 = self.books[self.books['rubrics'] == 'История России'][:k]
-        _3 = self.books[self.books['year'] == current_year][:k]
+        _2 = self.books[self.books['rubrics'] == 'История России'].index.tolist()[:k]
+        _3 = self.books[self.books['year'] == current_year].index.tolist()[:k]
         return [_1, _2, _3]
 
     def books_by_ids(self, ids: list):
