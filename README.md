@@ -1,4 +1,4 @@
-### library_rec_sys
+### Recommendation system for Moscow library
 
 ## Frontend local start
 
