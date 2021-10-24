@@ -30,7 +30,7 @@ class ItemSimilarity(Model):
         self._model = create(observation_data=data, user_id='user_id', item_id='book_id',
                              verbose=True, seed_item_set_size=0)
 
-    def predict(self, user_id: int, books_ids: list = None, k: int = 500) -> List:
+    def predict(self, user_id: int, books_ids: list = None, k: int = 25) -> List:
         if self._model is None:
             self.load()
 

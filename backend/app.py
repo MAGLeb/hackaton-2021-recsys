@@ -87,8 +87,8 @@ def popular():
     """
     month, russian, news = database.popular_books()
     month_books = database.books_by_ids(month)
-    russian_books = database.books_by_ids(month)
-    news_books = database.books_by_ids(month)
+    russian_books = database.books_by_ids(russian)
+    news_books = database.books_by_ids(news)
     response = {'month': month_books, 'russian': russian_books, 'new': news_books}
     return jsonify(response)
 
