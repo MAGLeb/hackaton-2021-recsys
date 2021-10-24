@@ -1,4 +1,4 @@
-### Recommendation system for Moscow library
+# Recommendation system for Moscow library
 
 ## Frontend local start
 
