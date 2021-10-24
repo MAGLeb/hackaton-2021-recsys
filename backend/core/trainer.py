@@ -3,6 +3,7 @@ from backend.core.database import Database
 
 
 class Trainer:
+    """ Class for training models."""
     def __init__(self):
         models = {
             'rnn': None,

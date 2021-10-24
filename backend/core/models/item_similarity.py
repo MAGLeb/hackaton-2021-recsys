@@ -13,10 +13,23 @@ from backend.utils.utils import NUMBER_ITEMS_TO_RETURN
 
 class ItemSimilarity(Model):
     """
-    Recommendation model imported from Apple framework 'Turicreate'.
-    https://github.com/apple/turicreate
-
     Find the most similar (the nearest) book to the book for which you want to predict.
+
+    This model first computes the similarity between items using the observations of users who have interacted with
+    both items. Given a similarity between item i and j, S(i,j), it scores an item j for user u using a weighted
+    average of the user’s previous observations Iu.
+
+    There are three choices of similarity metrics to use: ‘jaccard’, ‘cosine’ and ‘pearson’.
+
+    Jaccard similarity is used to measure the similarity between two set of elements. In the context of
+    recommendation, the Jaccard similarity between two items is computed as:
+
+                                                     |U_i ∩ U_j|
+                                            JS(i,j)= -----------
+                                                     |U_i ∪ U_j|
+
+    Recommendation model imported from Open-Source framework from Apple 'Turicreate'.
+    https://github.com/apple/turicreate
     """
     MODEL_PATH = 'data/models/item_similarity/'
 

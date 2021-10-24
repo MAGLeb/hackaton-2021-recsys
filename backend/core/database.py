@@ -14,7 +14,8 @@ DEFAULT_COLUMNS_RETURN = ['id', 'title', 'author', 'year', 'annotation',
 
 
 class Database:
-    """ Class for working with data, replaces SQL."""
+    """ Class for working with data, replaces SQL. All data stored in RAM."""
+    # TODO implement DataBase for working with all data, because of enormous size
 
     def __init__(self):
         self.books = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'books.csv'))

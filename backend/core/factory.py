@@ -5,7 +5,7 @@ from backend.core.models.random import Random
 
 class ModelFactory:
     """ Factory to create correct model for given name.
-    In additional, class save trained/loaded models.
+    In additional, Factory save trained/loaded models.
 
     :params model_name str: name to implement existing model.
     """

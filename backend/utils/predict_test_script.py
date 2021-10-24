@@ -10,6 +10,7 @@ PROJECT_PATH = project_path()
 
 
 def predict_test_data():
+    """ Script to get predictions for test data."""
     database = Database()
     model_similarity = ModelFactory.create('item_similarity', database)
     model_random = ModelFactory.create('random', database)

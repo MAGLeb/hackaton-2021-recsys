@@ -175,12 +175,14 @@ def recommendations():
     model = ModelFactory.create(model_name, database)
 
     if book_ids is None:
+        # Case, for user with history.
         user_id = int(user_id)
         ids = model.predict(user_id)
         predictions = database.books_by_ids(ids)
         user_history_ids = database.history_user(user_id)
         user_history = database.books_by_ids(user_history_ids)
     elif book_ids is not None:
+        # Case, when a user doesn't have history and chooses some books manually.
         not_existed_user_id = 1234567890
         book_ids = list(map(int, book_ids.split(',')))
         ids = model.predict(not_existed_user_id, book_ids)
