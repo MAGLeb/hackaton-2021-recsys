@@ -1,5 +1,6 @@
 numpy~=1.19.5
 Flask~=2.0.2
+Flask-Cors==3.0.10
 pandas~=1.3.3
 turicreate~=6.4.1
 python-dateutil~=2.8.2
