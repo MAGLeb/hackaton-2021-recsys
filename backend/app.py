@@ -102,7 +102,7 @@ def targets():
 
     Output data has JSON format:
     {
-        "books": [{BOOK_DESCRIPTION}, ...],
+        "target": [{BOOK_DESCRIPTION}, ...],
     }
     """
     target_ids = request.args.get('target_ids')
@@ -111,8 +111,9 @@ def targets():
         return "Necessarily send argument: 'targets_ids'.", 400
 
     target_ids = list(map(int, target_ids.split(',')))
-    popular_books_info = database.books_by_ids(target_ids)
-    return jsonify(popular_books_info)
+    books_info = database.books_by_ids(target_ids)
+    response = {'target': books_info}
+    return jsonify(response)
 
 
 @_app.route('/books_filter', methods=['GET'])
@@ -160,7 +161,7 @@ def recommendations():
         "history": [{BOOK_DESCRIPTION}, ...]
     }
     """
-    user_id = request.args.get('user_id')
+    user_id = int(request.args.get('user_id'))
     book_ids = request.args.get('book_ids')
     model_name = request.args.get('model_name')
     model = ModelFactory.create(model_name, database)
@@ -168,13 +169,17 @@ def recommendations():
     if book_ids is None:
         ids = model.predict(user_id)
         predictions = database.books_by_ids(ids)
-        return jsonify(predictions)
     elif book_ids is not None:
+        book_ids = list(map(int, book_ids.split(',')))
         ids = model.predict(user_id, book_ids)
         predictions = database.books_by_ids(ids)
-        return jsonify(predictions)
     else:
         return "Send 'user_id' and 'book_ids' which is history of user interaction.", 400
+
+    user_history_ids = database.history_user(user_id)
+    user_history = database.books_by_ids(user_history_ids)
+    response = {'recommendations': predictions, 'history': user_history}
+    return jsonify(response)
 
 
 if __name__ == '__main__':

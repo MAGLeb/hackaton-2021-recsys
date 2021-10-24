@@ -1,5 +1,8 @@
 import os
 from typing import List
+from datetime import datetime
+
+import pandas as pd
 
 from turicreate import SFrame, load_model
 from turicreate.toolkits.recommender.item_similarity_recommender import create
@@ -27,13 +30,30 @@ class ItemSimilarity(Model):
         self._model = create(observation_data=data, user_id='user_id', item_id='book_id',
                              verbose=True, seed_item_set_size=0)
 
-    def predict(self, user_id: int, books_ids: list = None) -> List:
+    def predict(self, user_id: int, books_ids: list = None, k: int = 500) -> List:
         if self._model is None:
             self.load()
 
-        predictions = self._model.recommend(users=[user_id], k=25, exclude_known=True, random_seed=42)
+        if books_ids is None:
+            predictions = self._model.recommend(users=[user_id], k=k, exclude_known=True, random_seed=42)
+        else:
+            data = self._database.interactions
+            new_observation_data = pd.DataFrame({'book_id': list(map(int, books_ids)),
+                                                 'user_id': list([int(user_id)] * len(books_ids)),
+                                                 'dt': list([datetime.now().strftime('%Y-%m-%d')] * len(books_ids))})
 
-        return list(predictions['book_id'])
+            data = pd.concat([data, new_observation_data]).reset_index(drop=True)
+            self._database.interactions = data
+
+            data = data.drop(columns=['dt'], axis=1)
+            data = SFrame(data)
+
+            self._model = create(observation_data=data, user_id='user_id', item_id='book_id',
+                                 verbose=True, seed_item_set_size=0)
+
+            predictions = self._model.recommend(users=[user_id], k=k, exclude_known=True, random_seed=42)
+
+        return list(predictions['book_id'])[:25]
 
     def load(self):
         if os.path.exists(self._local_model_path):

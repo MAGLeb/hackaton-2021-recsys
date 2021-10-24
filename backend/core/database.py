@@ -72,11 +72,12 @@ class Database:
             books = self.books[self.books['year'] >= 2000]
 
         books = books[books['rubrics'].isin(rubrics)]
-        ids = books['id'][:k]
-        return ids
+        ids = books['id']
+        return ids[:k]
 
-    def random_books_ids(self, k: int = 5) -> list:
+    def random_books_ids(self, k: int = 25) -> list:
         return random.sample(self.unique_books_ids, k)
 
-    def history_user(self, user_id: int) -> list:
-        return list(np.unique(self.interactions[self.interactions['user_id'] == user_id]['id']))
+    def history_user(self, user_id: int, k: int = 25) -> list:
+        return list(np.unique(self.interactions[self.interactions['user_id'] == user_id]
+                              .sort_values(by='dt')['book_id']))[-k:][::-1]
