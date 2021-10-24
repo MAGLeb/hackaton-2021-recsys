@@ -136,12 +136,13 @@ def books_filter():
     else:
         rubrics = rubrics.split(',')
 
-    if book_type in ['classic', 'modern']:
+    if book_type not in ['classic', 'modern']:
         return 'Argument "book_type" must be only one of: ["classic", "modern"].', 400
 
     ids = database.books_filter_by_type_rubrics(book_type, rubrics)
     filtered_books = database.books_by_ids(ids)
-    return jsonify(filtered_books)
+    response = {'books': filtered_books}
+    return jsonify(response)
 
 
 @_app.route('/recommendations', methods=['GET'])
