@@ -1,5 +1,5 @@
-# Recommendation system for Moscow library
-## Проект создан в рамках [хакатона](https://leaders2021.innoagency.ru/)
+# The recommendation system for Moscow library
+## The project was created as part of a [hackathon](https://leaders2021.innoagency.ru/)
 ### Frontend local start
 
 You need npm and nodejs installed to run this app
