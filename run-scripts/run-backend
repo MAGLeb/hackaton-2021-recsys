@@ -2,4 +2,4 @@
 cur_dir=`pwd`
 export PYTHONPATH=$cur_dir
 cd backend
-python app.py
+python3 app.py
