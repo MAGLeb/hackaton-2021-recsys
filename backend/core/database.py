@@ -19,7 +19,7 @@ class Database:
 
     def __init__(self):
         self.books = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'books.csv'))
-        self.interactions = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'train_interactions.csv'))
+        self.interactions = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'interactions.csv'))
         self.unique_books_ids = None
         self.unique_users_ids = None
         self.unique_rubrics = None

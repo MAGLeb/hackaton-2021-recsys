@@ -1,4 +1,14 @@
-# library_rec_sys
+# The recommendation system for Moscow library
+## The project was created as part of a [hackathon](https://leaders2021.innoagency.ru/)
+
+### References
+1. [Tech documentation](https://docs.google.com/document/d/1-P_eh0A3zyvD_QDpySUOEnNnpMI2gmuP5tEX6U6eaqI/edit)
+2. [Drafts of the interface](https://www.figma.com/file/qCCjWhQe4eN9AReOgzGKrt/Library-%2F-Hackaton-%2F-RecSys?node-id=0%3A1)
+3. [Presentation](https://docs.google.com/presentation/d/1vILvRbiWEYGSg7-cRUg88iBYqWKaj0ZGXEksY_YuFOY/edit#slide=id.gf751429f91_4_72)
+4. [Site](https://svetlanatselikova.github.io/library-app/)
+
+
+## Local app running instruction
 
 ### Installing dependencies
 For correct application running you need to install all necessary dependencies (only once). Run following bash script from root directory of project to install all necessary dependencies on Ubuntu in one action:

@@ -59,10 +59,9 @@ class ItemSimilarity(Model):
             data = data.drop(columns=['dt'], axis=1)
             data = SFrame(data)
 
-            self._model = create(observation_data=data, user_id='user_id', item_id='book_id',
-                                 verbose=True, seed_item_set_size=0)
-
-            predictions = self._model.recommend(users=[user_id], k=k, exclude_known=True, random_seed=42)
+            model = create(observation_data=data, user_id='user_id', item_id='book_id',
+                           verbose=True, seed_item_set_size=0)
+            predictions = model.recommend(users=[user_id], k=k, exclude_known=True, random_seed=42)
 
         return list(predictions['book_id'])[:NUMBER_ITEMS_TO_RETURN]
 
