@@ -1,0 +1,5 @@
+#!/bin/bash
+cur_dir=`pwd`
+export PYTHONPATH=$cur_dir
+cd backend
+python3 app.py
