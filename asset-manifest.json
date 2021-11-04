@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/library-app/static/css/main.6525f2e2.chunk.css",
+    "main.js": "/library-app/static/js/main.c3d93c17.chunk.js",
+    "main.js.map": "/library-app/static/js/main.c3d93c17.chunk.js.map",
+    "runtime-main.js": "/library-app/static/js/runtime-main.76826db5.js",
+    "runtime-main.js.map": "/library-app/static/js/runtime-main.76826db5.js.map",
+    "static/css/2.a95be28f.chunk.css": "/library-app/static/css/2.a95be28f.chunk.css",
+    "static/js/2.3e2f148e.chunk.js": "/library-app/static/js/2.3e2f148e.chunk.js",
+    "static/js/2.3e2f148e.chunk.js.map": "/library-app/static/js/2.3e2f148e.chunk.js.map",
+    "static/js/3.76469efd.chunk.js": "/library-app/static/js/3.76469efd.chunk.js",
+    "static/js/3.76469efd.chunk.js.map": "/library-app/static/js/3.76469efd.chunk.js.map",
+    "index.html": "/library-app/index.html",
+    "static/css/2.a95be28f.chunk.css.map": "/library-app/static/css/2.a95be28f.chunk.css.map",
+    "static/css/main.6525f2e2.chunk.css.map": "/library-app/static/css/main.6525f2e2.chunk.css.map",
+    "static/js/2.3e2f148e.chunk.js.LICENSE.txt": "/library-app/static/js/2.3e2f148e.chunk.js.LICENSE.txt",
+    "static/media/books.da7c06a2.png": "/library-app/static/media/books.da7c06a2.png",
+    "static/media/reading.aad66751.png": "/library-app/static/media/reading.aad66751.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.76826db5.js",
+    "static/css/2.a95be28f.chunk.css",
+    "static/js/2.3e2f148e.chunk.js",
+    "static/css/main.6525f2e2.chunk.css",
+    "static/js/main.c3d93c17.chunk.js"
+  ]
+}
