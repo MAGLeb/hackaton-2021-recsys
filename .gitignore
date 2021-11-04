@@ -4,3 +4,4 @@ local
 __pycache__
 .DS_Store
 /data/books.csv
+/frontend/package-lock.json

@@ -1,15 +1,10 @@
 import argparse
-import os
 
 NUMBER_ITEMS_TO_RETURN = 25
 
 
 def project_path() -> str:
-    name_project = 'library_rec_sys'
-    abs_path = os.path.abspath(os.path.curdir)
-    while os.path.basename(abs_path) != name_project:
-        abs_path = os.path.dirname(abs_path)
-    return abs_path
+    return '/home/SvetlanaTselikova/library_rec_sys'
 
 
 def parse_arguments():
