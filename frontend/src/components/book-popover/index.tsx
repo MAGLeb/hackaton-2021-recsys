@@ -17,7 +17,8 @@ export const BookPopover: React.FC<Props> = (props: Props) => {
       <div className={styles.description}>
         <div className={styles.annotation}>{book.annotation}</div>
         <div className={styles.age}>{book.year}</div>
-        <div className={styles.volume}>{book.volume} страниц</div>
+        {book.volume?
+        <div className={styles.volume}>{book.volume} страниц</div> : null}
         <div className={styles.tags}>
           {book.rubrics ? (
             <Tag className={styles.tag} color="blue">

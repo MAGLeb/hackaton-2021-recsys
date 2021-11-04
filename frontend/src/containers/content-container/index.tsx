@@ -6,8 +6,6 @@ import { RecommendationsContainer } from "../recommendations-container";
 import {
   selectContentMode,
   selectIsLoadingContent,
-  selectIsLoadingUsers,
-  selectUsersIds,
 } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import { ContentMode } from "../../types/common";
@@ -18,7 +16,6 @@ import { Skeleton } from "antd";
 import { TargetContainer } from "../target-container";
 import { UserSelect } from "../../components/user-select";
 import { RecommendationsCreatorContainer } from "../recommendations-creator-container";
-import { NotFoundComponent } from "../../components/not-found-component";
 
 export const ContentContainer = () => {
   const contentMode = useSelector(selectContentMode);
@@ -26,8 +23,6 @@ export const ContentContainer = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [currentUser, setCurrentUser] = useState<number | undefined>(undefined);
-  const userIds = useSelector(selectUsersIds);
-  const isLoadingUsers = useSelector(selectIsLoadingUsers);
 
   const history = useHistory();
 
@@ -56,7 +51,7 @@ export const ContentContainer = () => {
   };
 
   const getContent = () => {
-    if (isLoading || isLoadingUsers) {
+    if (isLoading) {
       return (
         <React.Fragment>
           {[...Array(3).keys()].map((item, inx) => (
@@ -64,9 +59,6 @@ export const ContentContainer = () => {
           ))}
         </React.Fragment>
       );
-    }
-    if (!userIds.includes(currentUser as number) && currentUser) {
-      return <NotFoundComponent />;
     }
     if (contentMode === ContentMode.populdar) {
       return (
@@ -90,7 +82,6 @@ export const ContentContainer = () => {
     <div className={styles.content}>
       <PageHeader />
       <UserSelect
-        isLoadingUsers={isLoadingUsers}
         onPredict={onPredict}
         value={currentUser}
       />

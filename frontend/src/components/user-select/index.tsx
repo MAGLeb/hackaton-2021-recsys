@@ -5,14 +5,13 @@ import styles from "./index.module.sass";
 
 type Props = {
   onPredict: (id: number | undefined) => void;
-  isLoadingUsers: boolean;
   value: number | undefined;
 };
 
 const USER_INPUT = "USER_INPUT";
 
 export const UserSelect: React.FC<Props> = (props: Props) => {
-  const { isLoadingUsers, onPredict, value } = props;
+  const {  onPredict, value } = props;
   const [form] = Form.useForm<{ [USER_INPUT]: number | undefined }>();
   useEffect(() => {
     form.setFieldsValue({ [USER_INPUT]: value });
@@ -49,8 +48,6 @@ export const UserSelect: React.FC<Props> = (props: Props) => {
         <Button
           type="primary"
           htmlType="submit"
-          disabled={isLoadingUsers}
-          loading={isLoadingUsers}
         >
           Получить рекомендации
         </Button>

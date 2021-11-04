@@ -1,6 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import {
-  usersSlice,
   recommendationsSlice,
   popularSlice,
   contentModeSlice,
@@ -12,7 +11,6 @@ import {
 } from "./slices";
 
 export default combineReducers({
-  users: usersSlice.reducer,
   recommendations: recommendationsSlice.reducer,
   popular: popularSlice.reducer,
   contentMode: contentModeSlice.reducer,

@@ -1,4 +1,3 @@
-export * from "./users";
 export * from "./recommendations";
 export * from "./popular";
 export * from "./content-mode";
