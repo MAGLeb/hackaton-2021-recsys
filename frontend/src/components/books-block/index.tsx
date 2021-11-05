@@ -6,7 +6,7 @@ import { BooksCarousel } from "../books-carousel";
 import { BookWrapper } from "../book-wrapper";
 
 type Props = {
-  title: string;
+  title: any;
   books: IBook[];
   isTarget?: boolean;
   popupPlacement?: string;
@@ -18,7 +18,11 @@ export const BooksBlock: React.FC<Props> = (props: Props) => {
   return (
     <div style={{ margin: isTarget ? "40px 0 0 0 " : "40px 0" }}>
       {!isTarget ? <Divider /> : null}
-      <Typography.Title level={4}>{title}</Typography.Title>
+      {typeof title === "string" ? (
+        <Typography.Title level={4}>{title}</Typography.Title>
+      ) : (
+        title
+      )}
       <BooksCarousel>
         {books.map((item, inx) => (
           <React.Fragment key={inx}>

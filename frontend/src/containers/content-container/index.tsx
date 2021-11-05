@@ -3,10 +3,8 @@ import styles from "./index.module.sass";
 import { PageHeader } from "../../components/page-header";
 import { useHistory, useLocation } from "react-router-dom";
 import { RecommendationsContainer } from "../recommendations-container";
-import {
-  selectContentMode,
-  selectIsLoadingContent,
-} from "./selector";
+import { ModifiedHistoryInfo } from "../../components/modified-history-info";
+import { selectContentMode, selectIsLoadingContent } from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import { ContentMode } from "../../types/common";
 import { PopularContainer } from "../popular-container";
@@ -23,6 +21,7 @@ export const ContentContainer = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [currentUser, setCurrentUser] = useState<number | undefined>(undefined);
+  const [isHistoryModified, setIsHistoryModified] = useState<boolean>(false);
 
   const history = useHistory();
 
@@ -32,6 +31,7 @@ export const ContentContainer = () => {
     setCurrentUser(
       currentUser ? Number(currentUser) : (currentUser as undefined)
     );
+    setIsHistoryModified(false);
     dispatch(fetchRecommendationsRequest(currentUser || NO_HISTORY));
   }, [location]);
 
@@ -71,8 +71,10 @@ export const ContentContainer = () => {
     if (contentMode === ContentMode.recommendations) {
       return (
         <React.Fragment>
-          <TargetContainer />
-          <RecommendationsContainer />
+          {isHistoryModified ? <ModifiedHistoryInfo /> : <TargetContainer />}
+          <RecommendationsContainer
+            setIsHistoryModified={setIsHistoryModified}
+          />
         </React.Fragment>
       );
     }
@@ -81,10 +83,7 @@ export const ContentContainer = () => {
   return (
     <div className={styles.content}>
       <PageHeader />
-      <UserSelect
-        onPredict={onPredict}
-        value={currentUser}
-      />
+      <UserSelect onPredict={onPredict} value={currentUser} />
       {getContent()}
     </div>
   );

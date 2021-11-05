@@ -26,7 +26,7 @@ export const recommendationsSlice = createSlice({
     }),
     fetchRecommendationsRequest: (
       state: RecommendationsState,
-      action: PayloadAction<number | string>
+      action: PayloadAction<number | string | number[]>
     ): RecommendationsState => ({
       ...state,
       recommendationsData: [],

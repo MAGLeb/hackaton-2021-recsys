@@ -20,9 +20,15 @@ export const loadRecommendations: RootEpic = (action$, state$) => {
       if (action.payload === NO_HISTORY) {
         return of(setContentMode(ContentMode.populdar));
       }
+      let url = `${BACKEND_URL}/recommendations?model_name=item_similarity`;
+      if (Array.isArray(action.payload)) {
+        url += `&book_ids=${action.payload.join(",")}`;
+      } else {
+        url += `&user_id=${action.payload}`;
+      }
 
       return ajax({
-        url: `${BACKEND_URL}/recommendations?user_id=${action.payload}&model_name=item_similarity`,
+        url,
         method: "GET",
         responseType: "text",
       }).pipe(
