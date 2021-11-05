@@ -18,3 +18,10 @@ export enum BookType {
   classic = "classic",
   modern = "modern",
 }
+
+export enum ModelType {
+  rnn = "rnn",
+  item_similarity = "item_similarity",
+  bert = "bert",
+  random = "random",
+}

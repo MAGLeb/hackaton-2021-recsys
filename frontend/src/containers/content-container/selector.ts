@@ -1,7 +1,7 @@
 import { RootState } from "../../store/types";
 import { createSelector } from "reselect";
-import { ContentModeState } from "../../store/slices";
-import { ContentMode } from "../../types/common";
+import { ContentModeState, modelSlice, ModelState } from "../../store/slices";
+import { ContentMode, ModelType } from "../../types/common";
 import { selectIsPopularLoading } from "../popular-container/selector";
 import { selectIsRecommendationsLoading } from "../recommendations-container/selector";
 
@@ -28,3 +28,11 @@ export const selectIsLoadingContent = createSelector<
   (isRecommendationsLoading, isPopularLoading): boolean =>
     isRecommendationsLoading || isPopularLoading
 );
+
+const getCurrentModel = (state: RootState): ModelState => state.model;
+
+export const selectCurrentModel = createSelector<
+  RootState,
+  ModelState,
+  ModelType
+>(getCurrentModel, (modelState): ModelType => modelState.currentModel);

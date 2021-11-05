@@ -20,7 +20,8 @@ export const loadRecommendations: RootEpic = (action$, state$) => {
       if (action.payload === NO_HISTORY) {
         return of(setContentMode(ContentMode.populdar));
       }
-      let url = `${BACKEND_URL}/recommendations?model_name=item_similarity`;
+      const currentModel = state$.value.model.currentModel;
+      let url = `${BACKEND_URL}/recommendations?model_name=${currentModel}`;
       if (Array.isArray(action.payload)) {
         url += `&book_ids=${action.payload.join(",")}`;
       } else {

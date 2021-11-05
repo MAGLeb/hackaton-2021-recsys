@@ -16,10 +16,11 @@ export const loadCreatedRecommendations: RootEpic = (action$, state$) => {
   return action$.pipe(
     filter(fetchCreatedRecommendationsRequest.match),
     switchMap((action) => {
+      const currentModel = state$.value.model.currentModel;
       return ajax({
         url: `${BACKEND_URL}/recommendations?book_ids=${action.payload.join(
           ","
-        )}&model_name=item_similarity`,
+        )}&model_name=${currentModel}`,
         method: "GET",
         responseType: "text",
       }).pipe(

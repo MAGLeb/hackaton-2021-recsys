@@ -7,3 +7,4 @@ export * from "./genres";
 export * from "./created-recommendations";
 export * from "./filtered-books";
 export * from "./created-recommendations";
+export * from "./model";
