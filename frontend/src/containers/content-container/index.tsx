@@ -93,6 +93,7 @@ export const ContentContainer = () => {
       <ModelRadio
         currentValue={currentModel}
         handleChange={(value) => {
+          setIsHistoryModified(false);
           dispatch(setModelType(value));
           if (currentUser) {
             dispatch(fetchRecommendationsRequest(currentUser));
