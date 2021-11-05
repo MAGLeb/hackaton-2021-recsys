@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, Steps, Typography } from "antd";
 import styles from "./index.module.sass";
 import { BookType } from "../../types/common";
-import { TypeStep } from "./type-step";
 import { GenresStep } from "./genres-step";
 import { IBook } from "../../types/common";
 import { BooksStep } from "./books-step";
@@ -14,7 +13,7 @@ type Props = {
   genresData: string[];
   isLoadingFilteredBooks: boolean;
   filteredBooksData: IBook[];
-  fetchFilteredBooks: (type: BookType, genres: string[]) => void;
+  fetchFilteredBooks: (genres: string[]) => void;
   isCreatingRecommendations: boolean;
   fetchCreatedRecommendations: (ids: number[]) => void;
 };
@@ -31,23 +30,10 @@ export const StepsBlock = (props: Props) => {
   } = props;
 
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [selectedType, setSelectedType] = useState<BookType | undefined>(
-    undefined
-  );
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedBooks, setSelectedBooks] = useState<number[]>([]);
 
   const steps = [
-    {
-      title: "Тип",
-      content: (
-        <TypeStep
-          currentType={selectedType}
-          onSelect={(type) => setSelectedType(type)}
-        />
-      ),
-      header: "Выберите тип литературы",
-    },
     {
       title: "Жанры",
       content: (
@@ -92,24 +78,21 @@ export const StepsBlock = (props: Props) => {
     setCurrentStep(currentStep - 1);
   };
   const getIsNextDisabled = () => {
-    if (currentStep === 0 && !selectedType) {
+    if (currentStep === 0 && !selectedGenres.length) {
       return true;
     }
-    if (currentStep === 1 && !selectedGenres.length) {
-      return true;
-    }
-    if (currentStep === 2 && !selectedBooks.length) {
+    if (currentStep === 1 && !selectedBooks.length) {
       return true;
     }
     return false;
   };
 
   const onNextClick = () => {
-    if (currentStep === 1) {
+    if (currentStep === 0) {
       setSelectedBooks([]);
-      fetchFilteredBooks(selectedType as BookType, selectedGenres);
+      fetchFilteredBooks(selectedGenres);
     }
-    if (currentStep === 2) {
+    if (currentStep === 1) {
       fetchCreatedRecommendations(selectedBooks);
     } else {
       next();
@@ -137,7 +120,7 @@ export const StepsBlock = (props: Props) => {
           onClick={onNextClick}
           className={styles.stepBtnNext}
           disabled={getIsNextDisabled()}
-          loading={currentStep === 2 && isCreatingRecommendations}
+          loading={currentStep === 1 && isCreatingRecommendations}
         >
           {currentStep === steps.length - 1
             ? "Подобрать рекомендации"

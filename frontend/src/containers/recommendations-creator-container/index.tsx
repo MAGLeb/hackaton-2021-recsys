@@ -50,8 +50,8 @@ export const RecommendationsCreatorContainer = () => {
       isLoadingGenres={isLoadingGenres}
       isLoadingFilteredBooks={isLoadingFilteredBooks}
       filteredBooksData={filteredBooksData}
-      fetchFilteredBooks={(type: BookType, genres: string[]) =>
-        dispatch(fetchFilteredBooksRequest({ type, genres }))
+      fetchFilteredBooks={(genres: string[]) =>
+        dispatch(fetchFilteredBooksRequest({ genres }))
       }
       isCreatingRecommendations={isCreatingRecommendations}
       fetchCreatedRecommendations={(ids) =>

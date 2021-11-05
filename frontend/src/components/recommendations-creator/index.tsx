@@ -11,7 +11,7 @@ type Props = {
   genresData: string[];
   isLoadingFilteredBooks: boolean;
   filteredBooksData: IBook[];
-  fetchFilteredBooks: (type: BookType, genres: string[]) => void;
+  fetchFilteredBooks: (genres: string[]) => void;
   fetchCreatedRecommendations: (ids: number[]) => void;
   isCreatingRecommendations: boolean;
 };

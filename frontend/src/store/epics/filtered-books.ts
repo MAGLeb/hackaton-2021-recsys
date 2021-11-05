@@ -15,11 +15,9 @@ export const loadFilteredBooks: RootEpic = (action$, state$) => {
   return action$.pipe(
     filter(fetchFilteredBooksRequest.match),
     switchMap((action) => {
-      const { type, genres } = action.payload;
+      const { genres } = action.payload;
       return ajax({
-        url: `${BACKEND_URL}/books_filter?type=${type}&rubrics=${genres.join(
-          ","
-        )}`,
+        url: `${BACKEND_URL}/books_filter?rubrics=${genres.join(",")}`,
         method: "GET",
         responseType: "text",
       }).pipe(

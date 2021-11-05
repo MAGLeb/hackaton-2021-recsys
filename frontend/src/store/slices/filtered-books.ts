@@ -24,7 +24,7 @@ export const filteredBooksSlice = createSlice({
     }),
     fetchFilteredBooksRequest: (
       state: FilteredBooksState,
-      action: PayloadAction<{ type: BookType; genres: string[] }>
+      action: PayloadAction<{ genres: string[] }>
     ): FilteredBooksState => ({
       ...state,
       filteredBooksData: [],

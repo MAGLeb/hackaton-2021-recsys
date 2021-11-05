@@ -3,7 +3,7 @@ import { Modal } from "antd";
 
 import { AskBlock } from "./ask";
 import { StepsBlock } from "./steps";
-import { IBook, BookType } from "../../types/common";
+import { IBook } from "../../types/common";
 
 enum ModalMode {
   steps = "steps",
@@ -17,7 +17,7 @@ type Props = {
   genresData: string[];
   isLoadingFilteredBooks: boolean;
   filteredBooksData: IBook[];
-  fetchFilteredBooks: (type: BookType, genres: string[]) => void;
+  fetchFilteredBooks: (genres: string[]) => void;
   isCreatingRecommendations: boolean;
   fetchCreatedRecommendations: (ids: number[]) => void;
 };
