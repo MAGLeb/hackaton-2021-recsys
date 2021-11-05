@@ -1,5 +1,5 @@
-import argparse
 import os
+import argparse
 
 NUMBER_ITEMS_TO_RETURN = 25
 

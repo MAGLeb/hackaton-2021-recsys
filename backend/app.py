@@ -85,11 +85,11 @@ def popular():
         "news": [{BOOK_DESCRIPTION}, ...]
     }
     """
-    month, russian, news = database.popular_books()
+    month, english, botanic = database.popular_books()
     month_books = database.books_by_ids(month)
-    russian_books = database.books_by_ids(russian)
-    news_books = database.books_by_ids(news)
-    response = {'month': month_books, 'russian': russian_books, 'new': news_books}
+    english_books = database.books_by_ids(english)
+    botanics_books = database.books_by_ids(botanic)
+    response = {'month': month_books, 'english': english_books, 'botanic': botanics_books}
     return jsonify(response)
 
 
@@ -129,18 +129,14 @@ def books_filter():
         "books": [{BOOK_DESCRIPTION}, ...]
     }
     """
-    book_type = request.args.get('type')
     rubrics = request.args.get('rubrics')
 
-    if book_type is None or rubrics is None:
-        return 'Necessarily send two arguments: "type" and "rubrics".', 400
+    if rubrics is None:
+        return 'Necessarily send argument: "rubrics".', 400
     else:
         rubrics = rubrics.split(',')
 
-    if book_type not in ['classic', 'modern']:
-        return 'Argument "book_type" must be only one of: ["classic", "modern"].', 400
-
-    ids = database.books_filter_by_type_rubrics(book_type, rubrics)
+    ids = database.books_filter_by_type_rubrics(rubrics)
     if ids:
         filtered_books = database.books_by_ids(ids)
     else:
