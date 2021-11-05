@@ -51,16 +51,15 @@ class Database:
     def popular_books(self, k: int = NUMBER_ITEMS_TO_RETURN):
         """
         1 - popular this month
-        2 - russian history (key: 'История России')
-        3 - new books of 2021 (current year)
+        2 - english books (key: 'Английский язык')
+        3 - botanic (key: 'Ботаника')
         """
         date_now_custom = pd.to_datetime(self.interactions['dt'].describe()['top'])
         date_last_month = (date_now_custom - dateutil.relativedelta.relativedelta(months=1)).strftime('%Y-%m-%d')
-        current_year = date_now_custom.year
 
         _1 = self.interactions[self.interactions['dt'] >= date_last_month]['book_id'].value_counts().index.tolist()[:k]
-        _2 = self.books[self.books['rubrics'] == 'История России'].index.tolist()[:k]
-        _3 = self.books[self.books['year'] == current_year].index.tolist()[:k]
+        _2 = self.books[self.books['rubrics'] == 'Английский язык'].index.tolist()[:k]
+        _3 = self.books[self.books['rubrics'] == 'Ботаника'].index.tolist()[:k]
         return [_1, _2, _3]
 
     def books_by_ids(self, ids: list):
@@ -78,13 +77,8 @@ class Database:
 
         return books_info.to_dict('records')
 
-    def books_filter_by_type_rubrics(self, book_type: Union['classic', 'modern'], rubrics: list, k: int = NUMBER_ITEMS_TO_RETURN):
-        if book_type == 'classic':
-            books = self.books[self.books['year'] <= 2000]
-        else:
-            books = self.books[self.books['year'] >= 2000]
-
-        books = books[books['rubrics'].isin(rubrics)]
+    def books_filter_by_type_rubrics(self, rubrics: list, k: int = NUMBER_ITEMS_TO_RETURN):
+        books = self.books[self.books['rubrics'].isin(rubrics)]
         ids = books['id'].values.tolist()
         return ids[:k]
 
