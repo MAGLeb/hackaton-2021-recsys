@@ -10,16 +10,17 @@ export const selectMonthData = createSelector<RootState, PopularState, IBook[]>(
   (popularState): IBook[] => popularState.monthData
 );
 
-export const selectRussianData = createSelector<
+export const selectEnglishData = createSelector<
   RootState,
   PopularState,
   IBook[]
->(getPopularState, (popularState): IBook[] => popularState.russianData);
+>(getPopularState, (popularState): IBook[] => popularState.englishData);
 
-export const selectNewData = createSelector<RootState, PopularState, IBook[]>(
-  getPopularState,
-  (popularState): IBook[] => popularState.newData
-);
+export const selectBotanicData = createSelector<
+  RootState,
+  PopularState,
+  IBook[]
+>(getPopularState, (popularState): IBook[] => popularState.botanicData);
 
 export const selectIsPopularLoading = createSelector<
   RootState,

@@ -3,15 +3,15 @@ import { IBook } from "../../types/common";
 
 export type PopularState = {
   monthData: IBook[];
-  russianData: IBook[];
-  newData: IBook[];
+  englishData: IBook[];
+  botanicData: IBook[];
   loading: boolean;
 };
 
 const initialState: PopularState = {
   monthData: [],
-  russianData: [],
-  newData: [],
+  englishData: [],
+  botanicData: [],
   loading: false,
 };
 
@@ -32,19 +32,23 @@ export const popularSlice = createSlice({
     ): PopularState => ({
       ...state,
       monthData: [],
-      russianData: [],
-      newData: [],
+      englishData: [],
+      botanicData: [],
       loading: true,
     }),
     fetchPopularSuccess: (
       state: PopularState,
-      action: PayloadAction<{ month: IBook[]; russian: IBook[]; new: IBook[] }>
+      action: PayloadAction<{
+        month: IBook[];
+        english: IBook[];
+        botanic: IBook[];
+      }>
     ): PopularState => ({
       ...state,
       loading: false,
       monthData: action.payload?.month || [],
-      russianData: action.payload?.russian || [],
-      newData: action.payload?.new || [],
+      englishData: action.payload?.english || [],
+      botanicData: action.payload?.botanic || [],
     }),
   },
 });
