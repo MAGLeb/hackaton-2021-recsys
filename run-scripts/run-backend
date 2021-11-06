@@ -1,5 +1,7 @@
 #!/bin/bash
 cur_dir=`pwd`
 export PYTHONPATH=$cur_dir
+git fetch origin docker:docker
+git checkout docker
 cd backend
 python3 app.py
