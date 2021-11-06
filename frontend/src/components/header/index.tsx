@@ -6,10 +6,7 @@ import logo from "../../images/books.png";
 
 export const Header: React.FC = () => (
   <Layout.Header className={styles.header}>
-    <Link to={`/`}>
-      {" "}
-      <img src={logo} className={styles.logo} alt="logo"></img>
-    </Link>{" "}
+    <img src={logo} className={styles.logo} alt="logo"></img>
     <Typography.Title level={3} className={styles.logoText}>
       Library app
     </Typography.Title>
