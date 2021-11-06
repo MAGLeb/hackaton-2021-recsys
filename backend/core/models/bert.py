@@ -2,10 +2,11 @@ import os
 import pickle
 from typing import List
 
-import numpy as np
 import torch
-from backend.core.models.model import Model
+import numpy as np
 from transformers import AutoModelForSequenceClassification
+
+from backend.core.models.model import Model
 
 
 class Bert(Model):
