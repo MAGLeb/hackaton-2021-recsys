@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Select, Form, Button } from "antd";
+import { Select, Form, Button, Skeleton } from "antd";
 
 import styles from "./index.module.sass";
 
@@ -14,41 +14,56 @@ const TARGET_SELECT = "TARGET_SELECT";
 export const TargetSelect: React.FC<Props> = (props: Props) => {
   const { targetIds, isLoadingTargets, onSearch } = props;
   const [form] = Form.useForm<{ [TARGET_SELECT]: number[] }>();
-  const [isSearchDisabled, setIsSearchDisabled] = useState<boolean>(true);
-
-  return (
+  const onChange = () => {
+    form.validateFields([TARGET_SELECT]);
+  };
+  return isLoadingTargets ? (
+    <Skeleton active paragraph={{ rows: 1 }} />
+  ) : (
     <Form
       form={form}
       layout="inline"
       className={styles.form}
       onFinish={(value) => onSearch(value[TARGET_SELECT])}
     >
-      <Form.Item name={TARGET_SELECT} label="Идентификаторы книг">
+      <Form.Item
+        name={TARGET_SELECT}
+        label="Идентификаторы книг"
+        rules={[
+          {
+            validator: () => {
+              const values = form.getFieldValue(TARGET_SELECT);
+              if (!values?.length) {
+                return Promise.reject("Поле должно быть заполнено");
+              }
+              const invalidIds: any[] = [];
+              values?.forEach((item: string) => {
+                if (!targetIds.includes(Number(item))) {
+                  invalidIds.push(item);
+                }
+              });
+              return invalidIds.length
+                ? Promise.reject(
+                    `${
+                      invalidIds.length > 1 ? "Книг" : "Книги"
+                    } с айди ${invalidIds.join(", ")} не существует`
+                  )
+                : Promise.resolve();
+            },
+          },
+        ]}
+      >
         <Select
+          placeholder="Введите айди через запятую..."
+          mode="tags"
+          tokenSeparators={[",", " "]}
+          notFoundContent={null}
+          onChange={onChange}
           className={styles.select}
-          placeholder="Выберите идентификаторы..."
-          loading={isLoadingTargets}
-          showSearch
-          mode="multiple"
-          maxTagCount={5}
-          allowClear
-          onChange={(value) => {
-            if (Array.isArray(value) && value.length) {
-              setIsSearchDisabled(false);
-            } else {
-              setIsSearchDisabled(true);
-            }
-          }}
-        >
-          {targetIds.map((id) => (
-            <Select.Option key={id} value={id}>
-              {id}
-            </Select.Option>
-          ))}
-        </Select>
+        ></Select>
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" disabled={isSearchDisabled}>
+        <Button type="primary" htmlType="submit">
           Показать книги
         </Button>
       </Form.Item>
