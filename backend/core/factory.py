@@ -11,9 +11,9 @@ class ModelFactory:
     """
     current_models = {}
     model_name_to_class = {
-        'rnn': None,
+        'rnn': Random,
         'item_similarity': ItemSimilarity,
-        'collaborative_filtering': None,
+        'bert': Random,
         'random': Random,
     }
 
