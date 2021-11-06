@@ -18,7 +18,7 @@ class Random(Model):
     def train(self, item_data: SFrame):
         pass
 
-    def predict(self, user_id: int, k: int = NUMBER_ITEMS_TO_RETURN) -> List:
+    def predict(self, user_id: int, books_ids: list = None, k: int = NUMBER_ITEMS_TO_RETURN) -> List:
         predictions = self._database.random_books_ids(k)
         predictions = list(map(int, predictions))
         return predictions
