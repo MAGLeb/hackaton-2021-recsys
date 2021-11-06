@@ -20,6 +20,10 @@ export const ModelRadio: React.FC<Props> = (props: Props) => {
         <Radio value={ModelType.item_similarity}>
           Item Similarity based on user interactions
         </Radio>
+        <Radio value={ModelType.rnn}>Recurrent Neural Network</Radio>
+        <Radio value={ModelType.bert}>
+          BERT Neural Network (long prediction)
+        </Radio>
         <Radio value={ModelType.random}>Random</Radio>
       </Radio.Group>
     </Form.Item>
