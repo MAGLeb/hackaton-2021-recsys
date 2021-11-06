@@ -67,16 +67,16 @@ def rubrics():
     }
     """
     all_rubrics = database.rubrics()
-    response = {'rubrics': all_rubrics}
+    response = {'rubrics': all_rubrics['rubrics'].tolist()}
     return jsonify(response)
 
 
 @_app.route('/popular', methods=['GET'])
 def popular():
     """ Return books ids for three topic:
-        - popular this month,
-        - russian history (key: 'История России'),
-        - new books of current year.
+          - popular this month
+          - english books (key: 'Английский язык')
+          - botanic (key: 'Ботаника')
 
     Output data has JSON format:
     {

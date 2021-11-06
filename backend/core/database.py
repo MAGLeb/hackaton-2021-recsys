@@ -20,10 +20,12 @@ class Database:
     def __init__(self):
         self.books = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'books.csv'))
         self.interactions = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'interactions.csv'))
-        self.unique_users_ids = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'user_ids.csv'),
-                                            encoding='cp1251', sep=';', index_col='id')
+        self.unique_users_ids = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'user_ids.csv'), encoding='cp1251')
         self.unique_rubrics = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'rubrics.csv'),
                                           encoding='cp1251', sep=';', index_col='id')
+
+        self.books['id'] = list(map(lambda x: pd.to_numeric(x, errors='coerce'), self.books['id']))
+        self.books = self.books[~self.books['id'].isna()]
         self.unique_books_ids = list(np.unique(self.books['id']))
 
     def books_ids(self) -> list:
@@ -45,8 +47,8 @@ class Database:
         date_last_month = (date_now_custom - dateutil.relativedelta.relativedelta(months=1)).strftime('%Y-%m-%d')
 
         _1 = self.interactions[self.interactions['dt'] >= date_last_month]['book_id'].value_counts().index.tolist()[:k]
-        _2 = self.books[self.books['rubrics'] == 'Английский язык'].index.tolist()[:k]
-        _3 = self.books[self.books['rubrics'] == 'Ботаника'].index.tolist()[:k]
+        _2 = self.books[(self.books['rubrics'] == 'Английский язык') & (self.books['title'].notna())]['id'].tolist()[:k]
+        _3 = self.books[(self.books['rubrics'] == 'Ботаника') & (self.books['title'].notna())]['id'].tolist()[:k]
         return [_1, _2, _3]
 
     def books_by_ids(self, ids: list):

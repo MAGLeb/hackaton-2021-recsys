@@ -8,6 +8,7 @@ import {
   genresSlice,
   createdRecommendationsSlice,
   filteredBooksSlice,
+  modelSlice,
 } from "./slices";
 
 export default combineReducers({
@@ -19,4 +20,5 @@ export default combineReducers({
   genres: genresSlice.reducer,
   filteredBooks: filteredBooksSlice.reducer,
   createdRecommendations: createdRecommendationsSlice.reducer,
+  model: modelSlice.reducer,
 });

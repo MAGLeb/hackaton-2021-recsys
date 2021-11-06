@@ -4,16 +4,21 @@ import { PageHeader } from "../../components/page-header";
 import { useHistory, useLocation } from "react-router-dom";
 import { RecommendationsContainer } from "../recommendations-container";
 import { ModifiedHistoryInfo } from "../../components/modified-history-info";
-import { selectContentMode, selectIsLoadingContent } from "./selector";
+import {
+  selectContentMode,
+  selectCurrentModel,
+  selectIsLoadingContent,
+} from "./selector";
 import { useDispatch, useSelector } from "react-redux";
 import { ContentMode } from "../../types/common";
 import { PopularContainer } from "../popular-container";
-import { fetchRecommendationsRequest } from "../../store/slices";
+import { fetchRecommendationsRequest, setModelType } from "../../store/slices";
 import { NO_HISTORY, USER_PARAM } from "../../constants";
 import { Skeleton } from "antd";
 import { TargetContainer } from "../target-container";
 import { UserSelect } from "../../components/user-select";
 import { RecommendationsCreatorContainer } from "../recommendations-creator-container";
+import { ModelRadio } from "../../components/model-radio";
 
 export const ContentContainer = () => {
   const contentMode = useSelector(selectContentMode);
@@ -22,6 +27,7 @@ export const ContentContainer = () => {
   const location = useLocation();
   const [currentUser, setCurrentUser] = useState<number | undefined>(undefined);
   const [isHistoryModified, setIsHistoryModified] = useState<boolean>(false);
+  const currentModel = useSelector(selectCurrentModel);
 
   const history = useHistory();
 
@@ -84,6 +90,16 @@ export const ContentContainer = () => {
     <div className={styles.content}>
       <PageHeader />
       <UserSelect onPredict={onPredict} value={currentUser} />
+      <ModelRadio
+        currentValue={currentModel}
+        handleChange={(value) => {
+          setIsHistoryModified(false);
+          dispatch(setModelType(value));
+          if (currentUser) {
+            dispatch(fetchRecommendationsRequest(currentUser));
+          }
+        }}
+      />
       {getContent()}
     </div>
   );
