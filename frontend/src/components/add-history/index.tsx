@@ -1,80 +1,62 @@
 import React, { useState } from "react";
-import { Collapse, Select, Form, Button } from "antd";
+import { Collapse, Select, Form, Button, Input, Skeleton } from "antd";
 import styles from "./index.module.sass";
 
 const BOOK_ID = "BOOK_ID";
 type Props = {
-  onAdd: (ids: number[]) => void;
+  onAdd: (id: number) => void;
   booksIds: number[];
   isLoadingBooks: boolean;
 };
 
 export const AddHistory: React.FC<Props> = (props: Props) => {
   const { onAdd, booksIds, isLoadingBooks } = props;
-  const [form] = Form.useForm<{ [BOOK_ID]: number[] }>();
-  const [optionsSelected, setOptionsSelected] = useState<number[]>([]);
-  const [isSearchDisabled, setIsSearchDisabled] = useState<boolean>(true);
-  const handleChange = (value) => {
-    setOptionsSelected(value);
-    if (Array.isArray(value) && value.length) {
-      setIsSearchDisabled(false);
-    } else {
-      setIsSearchDisabled(true);
-    }
-  };
-
+  const [form] = Form.useForm<{ [BOOK_ID]: number }>();
   const text =
     "Вы можете модифицировать историю и посмотреть, как изменятся рекомендации (изменения не будут сохранены и не повлияют на дальнейшую работу)";
   return (
-    <Collapse ghost className={styles.collapse}>
+    <Collapse ghost className={styles.collapse} destroyInactivePanel>
       <Collapse.Panel key={1} header={text}>
-        <Form
-          form={form}
-          className={styles.form}
-          layout="inline"
-          onFinish={(value) => onAdd(value[BOOK_ID])}
-        >
-          <Form.Item
-            name={BOOK_ID}
-            label="Идентификаторы книг для добавления в историю (до 3-x)"
+        {isLoadingBooks ? (
+          <Skeleton active paragraph={{ rows: 1 }} />
+        ) : (
+          <Form
+            form={form}
+            className={styles.form}
+            layout="inline"
+            onFinish={(value) => onAdd(value[BOOK_ID])}
           >
-            <Select
-              className={styles.select}
-              placeholder="Выберите идентификаторы..."
-              loading={isLoadingBooks}
-              showSearch
-              mode="multiple"
-              maxTagCount={3}
-              onChange={handleChange}
-              allowClear
+            <Form.Item
+              name={BOOK_ID}
+              label="Идентификатор книги для добавления в историю"
+              rules={[
+                {
+                  validator: () => {
+                    const id = form.getFieldValue(BOOK_ID);
+                    return !id || booksIds.includes(Number(id))
+                      ? Promise.resolve()
+                      : Promise.reject(`Книги с айди ${id} не существует`);
+                  },
+                },
+                {
+                  message: "Поле должно быть заполнено",
+                  required: true,
+                },
+              ]}
             >
-              {booksIds.map((id) => (
-                <Select.Option
-                  key={id}
-                  value={id}
-                  disabled={
-                    optionsSelected.length > 2
-                      ? optionsSelected.includes(id)
-                        ? false
-                        : true
-                      : false
-                  }
-                >
-                  {id}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={isSearchDisabled}
-            >
-              Обновить рекомендации
-            </Button>
-          </Form.Item>
-        </Form>
+              <Input
+                placeholder="Выберите идентификатор..."
+                className={styles.input}
+                autoComplete="off"
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Обновить рекомендации
+              </Button>
+            </Form.Item>
+          </Form>
+        )}
       </Collapse.Panel>
     </Collapse>
   );

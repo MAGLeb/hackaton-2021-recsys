@@ -31,7 +31,7 @@ export const RecommendationsContainer: React.FC<Props> = (props: Props) => {
         isLoadingBooks={isLoadingBooks}
         booksIds={booksIds}
         onAdd={(value) => {
-          const newIds = [...value, ...history.map((item) => item.id)];
+          const newIds = [value, ...history.map((item) => item.id)];
           setIsHistoryModified(true);
           dispatch(fetchRecommendationsRequest(newIds));
         }}
