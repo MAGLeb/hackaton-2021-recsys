@@ -3,6 +3,7 @@ from typing import List
 from turicreate.data_structures.sframe import SFrame
 
 from backend.core.models.model import Model
+from backend.utils.utils import NUMBER_ITEMS_TO_RETURN
 
 
 class Random(Model):
@@ -17,8 +18,9 @@ class Random(Model):
     def train(self, item_data: SFrame):
         pass
 
-    def predict(self, user_id: int) -> List:
-        predictions = self._database.random_books_ids()
+    def predict(self, user_id: int, k: int = NUMBER_ITEMS_TO_RETURN) -> List:
+        predictions = self._database.random_books_ids(k)
+        predictions = list(map(int, predictions))
         return predictions
 
     def load(self):

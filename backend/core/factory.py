@@ -1,7 +1,6 @@
 from backend.core.models.model import Model
 from backend.core.models.item_similarity import ItemSimilarity
 from backend.core.models.random import Random
-from backend.core.models.bert import Bert
 
 
 class ModelFactory:
