@@ -1,14 +1,16 @@
 from backend.core.models.model import Model
 from backend.core.models.item_similarity import ItemSimilarity
 from backend.core.models.random import Random
+from backend.core.models.bert import Bert
 
 
 class ModelFactory:
-    """ Factory to create correct model for given name.
+    """Factory to create correct model for given name.
     In additional, Factory save trained/loaded models.
 
     :params model_name str: name to implement existing model.
     """
+
     current_models = {}
     model_name_to_class = {
         'rnn': Random,

@@ -7,6 +7,7 @@
 3. [Presentation](https://docs.google.com/presentation/d/1vILvRbiWEYGSg7-cRUg88iBYqWKaj0ZGXEksY_YuFOY/edit#slide=id.gf751429f91_4_72)
 4. [Site](https://svetlanatselikova.github.io/library-app/)
 5. [Data GoogleDisk](https://drive.google.com/drive/folders/1soNwrx75x-dUdMYZnOxSN1RMEnu_FH38?usp=sharing)
+6. [BERT GoogleDisk model](https://drive.google.com/file/d/1Sn0OU3DL0yLsbZrXCXl2lsYEWssc1njX/view?usp=sharing)
 
 
 ## Local app running instruction
