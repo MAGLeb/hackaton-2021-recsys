@@ -19,7 +19,7 @@ class Database:
     # TODO implement DataBase for working with all data, because of enormous size
 
     def __init__(self):
-        self.books = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'books.csv'))
+        self.books = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'books_desc.csv'))
         self.interactions = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'interactions.csv'))
         self.unique_users_ids = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'user_ids.csv'), encoding='cp1251')
         self.unique_rubrics = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'rubrics.csv'),
