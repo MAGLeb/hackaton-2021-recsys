@@ -16,10 +16,10 @@ export const PopularContainer = () => {
     <React.Fragment>
       <BooksBlock title="Популярное за месяц" books={monthData} />
       <BooksBlock
-        title="Популярные книги по английскому языку"
+        title="Категория 'Английский язык'"
         books={englishData}
       />
-      <BooksBlock title="Популярные книги по ботанике" books={botanicData} />
+      <BooksBlock title="Категория 'Ботаника'" books={botanicData} />
     </React.Fragment>
   );
 };
