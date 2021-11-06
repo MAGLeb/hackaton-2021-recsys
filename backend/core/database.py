@@ -65,7 +65,7 @@ class Database:
         split_books = self.books.loc[self.books['id'].isin(ids), DEFAULT_COLUMNS_RETURN]
 
         for id in ids:
-            if id in split_books['id']:
+            if id in split_books['id'].to_list():
                 book = split_books.loc[split_books['id'] == id]
                 books_info = books_info.append(book, ignore_index=True)
             else:
