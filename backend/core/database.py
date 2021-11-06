@@ -1,6 +1,5 @@
 import os
 import random
-from typing import Union
 import dateutil.relativedelta
 
 import pandas as pd
@@ -15,29 +14,17 @@ DEFAULT_COLUMNS_RETURN = ['id', 'title', 'author', 'year', 'annotation',
 
 class Database:
     """ Class for working with data, replaces SQL. All data stored in RAM."""
+
     # TODO implement DataBase for working with all data, because of enormous size
 
     def __init__(self):
         self.books = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'books.csv'))
         self.interactions = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'interactions.csv'))
-        self.unique_books_ids = None
-        self.unique_users_ids = None
-        self.unique_rubrics = None
-
-        self._find_static_data()
-
-    def _find_static_data(self):
+        self.unique_users_ids = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'user_ids.csv'),
+                                            encoding='cp1251', sep=';', index_col='id')
+        self.unique_rubrics = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'rubrics.csv'),
+                                          encoding='cp1251', sep=';', index_col='id')
         self.unique_books_ids = list(np.unique(self.books['id']))
-        self.unique_users_ids = list(np.unique(self.interactions['user_id']))
-        self.unique_rubrics = self._get_unique_rubrics()
-
-    @staticmethod
-    def _get_unique_rubrics():
-        rubrics = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'rubrics.csv'),
-                              encoding='cp1251', sep=';', index_col='id')
-        rubrics = rubrics.values.reshape(1, len(rubrics)).tolist()[0]
-
-        return rubrics
 
     def books_ids(self) -> list:
         return self.unique_books_ids
