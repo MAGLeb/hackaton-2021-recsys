@@ -4,3 +4,5 @@ Flask-Cors==3.0.10
 pandas~=1.3.3
 turicreate~=6.4.1
 python-dateutil~=2.8.2
+transformers-4.12.3
+torch==1.10.0+cpu
