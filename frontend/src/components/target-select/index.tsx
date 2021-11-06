@@ -14,9 +14,16 @@ const TARGET_SELECT = "TARGET_SELECT";
 export const TargetSelect: React.FC<Props> = (props: Props) => {
   const { targetIds, isLoadingTargets, onSearch } = props;
   const [form] = Form.useForm<{ [TARGET_SELECT]: number[] }>();
-  const onChange = () => {
+  const [isSearchDisabled, setIsSearchDisabled] = useState<boolean>(true);
+  const onChange = (value) => {
     form.validateFields([TARGET_SELECT]);
+    if (Array.isArray(value) && value.length) {
+      setIsSearchDisabled(false);
+    } else {
+      setIsSearchDisabled(true);
+    }
   };
+
   return isLoadingTargets ? (
     <Skeleton active paragraph={{ rows: 1 }} />
   ) : (
@@ -33,9 +40,6 @@ export const TargetSelect: React.FC<Props> = (props: Props) => {
           {
             validator: () => {
               const values = form.getFieldValue(TARGET_SELECT);
-              if (!values?.length) {
-                return Promise.reject("Поле должно быть заполнено");
-              }
               const invalidIds: any[] = [];
               values?.forEach((item: string) => {
                 if (!targetIds.includes(Number(item))) {
@@ -63,7 +67,7 @@ export const TargetSelect: React.FC<Props> = (props: Props) => {
         ></Select>
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" disabled={isSearchDisabled}>
           Показать книги
         </Button>
       </Form.Item>

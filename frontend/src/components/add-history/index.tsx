@@ -12,6 +12,7 @@ type Props = {
 export const AddHistory: React.FC<Props> = (props: Props) => {
   const { onAdd, booksIds, isLoadingBooks } = props;
   const [form] = Form.useForm<{ [BOOK_ID]: number }>();
+  const [isSearchDisabled, setIsSearchDisabled] = useState<boolean>(true);
   const text =
     "Вы можете модифицировать историю и посмотреть, как изменятся рекомендации (изменения не будут сохранены и не повлияют на дальнейшую работу)";
   return (
@@ -38,20 +39,27 @@ export const AddHistory: React.FC<Props> = (props: Props) => {
                       : Promise.reject(`Книги с айди ${id} не существует`);
                   },
                 },
-                {
-                  message: "Поле должно быть заполнено",
-                  required: true,
-                },
               ]}
             >
               <Input
                 placeholder="Выберите идентификатор..."
                 className={styles.input}
                 autoComplete="off"
+                onChange={(event) => {
+                  if (event?.target?.value?.length) {
+                    setIsSearchDisabled(false);
+                  } else {
+                    setIsSearchDisabled(true);
+                  }
+                }}
               />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={isSearchDisabled}
+              >
                 Обновить рекомендации
               </Button>
             </Form.Item>
