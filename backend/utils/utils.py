@@ -1,7 +1,7 @@
 import os
 import argparse
 
-NUMBER_ITEMS_TO_RETURN = 25
+NUMBER_ITEMS_TO_RETURN = 10
 
 
 def project_path() -> str:

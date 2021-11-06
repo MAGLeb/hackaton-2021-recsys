@@ -3,5 +3,6 @@ local
 .~lock*
 __pycache__
 .DS_Store
+.ipynb_checkpoints/
 /data/books.csv
 /frontend/package-lock.json

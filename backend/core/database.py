@@ -28,6 +28,8 @@ class Database:
         self.books = self.books[~self.books['id'].isna()]
         self.unique_books_ids = list(np.unique(self.books['id']))
 
+        self.popularity = None
+
     def books_ids(self) -> list:
         return self.unique_books_ids
 
@@ -43,21 +45,27 @@ class Database:
         2 - english books (key: 'Английский язык')
         3 - botanic (key: 'Ботаника')
         """
-        date_now_custom = pd.to_datetime(self.interactions['dt'].describe()['top'])
-        date_last_month = (date_now_custom - dateutil.relativedelta.relativedelta(months=1)).strftime('%Y-%m-%d')
+        if self.popularity is None:
+            date_now_custom = pd.to_datetime(self.interactions['dt'].describe()['top'])
+            date_last_month = (date_now_custom - dateutil.relativedelta.relativedelta(months=1)).strftime('%Y-%m-%d')
 
-        _1 = self.interactions[self.interactions['dt'] >= date_last_month]['book_id'].value_counts().index.tolist()[:k]
-        _2 = self.books[(self.books['rubrics'] == 'Английский язык') & (self.books['title'].notna())]['id'].tolist()[:k]
-        _3 = self.books[(self.books['rubrics'] == 'Ботаника') & (self.books['title'].notna())]['id'].tolist()[:k]
-        return [_1, _2, _3]
+            ids = self.interactions[self.interactions['dt'] >= date_last_month]['book_id'].value_counts().index.tolist()
+            popular_books = self.books_by_ids(ids)
+            popular_books = popular_books[popular_books['title'].notna()]
+
+            _1 = popular_books['id'].tolist()[:k]
+            _2 = self.books[(self.books['rubrics'] == 'Английский язык') & (self.books['title'].notna())]['id'].tolist()[:k]
+            _3 = self.books[(self.books['rubrics'] == 'Ботаника') & (self.books['title'].notna())]['id'].tolist()[:k]
+            self.popularity = [_1, _2, _3]
+        return self.popularity
 
     def books_by_ids(self, ids: list):
         books_info = pd.DataFrame(columns=DEFAULT_COLUMNS_RETURN)
-        books_ids = self.books['id'].values.tolist()
+        split_books = self.books.loc[self.books['id'].isin(ids), DEFAULT_COLUMNS_RETURN]
 
         for id in ids:
-            if id in books_ids:
-                book = self.books.loc[self.books['id'] == id, DEFAULT_COLUMNS_RETURN]
+            if id in self.unique_books_ids:
+                book = split_books.loc[split_books['id'] == id]
                 books_info = books_info.append(book, ignore_index=True)
             else:
                 book = {column: None for column in DEFAULT_COLUMNS_RETURN}

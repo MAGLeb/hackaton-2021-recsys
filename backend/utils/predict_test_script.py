@@ -14,7 +14,7 @@ def predict_test_data():
     database = Database()
     model_similarity = ModelFactory.create('item_similarity', database)
     model_random = ModelFactory.create('random', database)
-    test_data = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'test_result.csv'))
+    test_data = pd.read_csv(os.path.join(PROJECT_PATH, 'data', 'validation', 'test_interactions.csv'))
     test_ids = test_data['user_id'].values.tolist()
     test_target = test_data.loc[:, test_data.columns[1:]].values.tolist()
     predictions_similarity = []
