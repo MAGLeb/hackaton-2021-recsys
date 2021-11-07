@@ -49,11 +49,10 @@ class Database:
         3 - botanic (key: 'Ботаника')
         """
         if self.popularity is None:
-            date_now_custom = pd.to_datetime(self.interactions['dt'].describe()['top'])
-            date_last_month = (date_now_custom - dateutil.relativedelta.relativedelta(months=1)).strftime('%Y-%m-%d')
+            _1_pop = self.interactions['book_id'].value_counts().index.tolist()
+            _1 = list(map(lambda x: x['id'], list(filter(lambda x: isinstance(x['title'], str),
+                                                         self.books_by_ids(_1_pop[:100])))[:k]))
 
-            _1 = self.interactions[self.interactions['dt'] >= date_last_month]['book_id'].value_counts().index.tolist()[
-                 :k]
             _2 = self.books[(self.books['rubrics'] == 'Английский язык') & (self.books['title'].notna())][
                      'id'].tolist()[:k]
             _3 = self.books[(self.books['rubrics'] == 'Ботаника') & (self.books['title'].notna())]['id'].tolist()[:k]
